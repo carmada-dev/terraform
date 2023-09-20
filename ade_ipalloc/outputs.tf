@@ -1,3 +1,3 @@
 output "ip_ranges" {
-  value = split(",", data.external.IPAlloction.value.IPRANGES)
+  value = split(",", data.external.IPAlloction.result.IPRANGES)
 }
