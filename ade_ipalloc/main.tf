@@ -13,16 +13,20 @@ resource "null_resource" "IPAlloc" {
 
 	provisioner "local-exec" {
     	command = <<-EOC
+
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
 curl -sS -X POST "${self.triggers.AllocationUrl}?${self.triggers.AllocationQuery}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
+
 EOC
   	}
   
   	provisioner "local-exec" {
 		when    = destroy
 		command = <<-EOC
+
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
 curl -sS -X DELETE "${self.triggers.AllocationUrl}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
+
 EOC
 	}
 
@@ -33,4 +37,5 @@ data "external" "IPAlloction" {
 	query = {
 	  URL = "${resource.null_resource.IPAlloc.triggers.AllocationUrl}"
 	}
+	depends_on = [ null_resource.IPAlloc ]
 }
