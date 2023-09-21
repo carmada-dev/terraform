@@ -15,7 +15,7 @@ resource "null_resource" "IPAlloc" {
     	command = <<-EOC
 
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
-curl -sS -X POST "${self.triggers.AllocationUrl}?${self.triggers.AllocationQuery}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
+curl -X POST "${self.triggers.AllocationUrl}?${self.triggers.AllocationQuery}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
 
 EOC
   	}
@@ -25,7 +25,7 @@ EOC
 		command = <<-EOC
 
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
-curl -sS -X DELETE "${self.triggers.AllocationUrl}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
+curl -X DELETE "${self.triggers.AllocationUrl}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
 
 EOC
 	}
