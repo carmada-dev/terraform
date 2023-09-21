@@ -1,0 +1,5 @@
+#!/bin/bash
+
+jq -n \
+	--arg RESOURCE_GROUP_NAME "$RESOURCE_GROUP_NAME" \
+	'{ "RESOURCE_GROUP_NAME": $RESOURCE_GROUP_NAME }' 

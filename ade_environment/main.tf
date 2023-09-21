@@ -1,5 +1,13 @@
+data "external" "Environment" {
+	program = [ "bash", "${path.module}/scripts/Environment.sh"]
+}
+
 data "azurerm_resource_group" "Environment" {
-  name = "${var.resource_group_name}"
+  name = "${data.external.Environment.RESOURCE_GROUP_NAME}"
+}
+
+resource "arm2tf_unique_string" "Environment" {
+  input = [ data.azurerm_resource_group.Environment.id ]
 }
 
 data "azurerm_app_configuration_key" "Settings_PrivateLinkDnsZoneRG" {
@@ -17,6 +25,3 @@ data "azurerm_app_configuration_key" "Settings_ProjectGatewayIP" {
   key                    = "ProjectGatewayIP"
 }
 
-resource "arm2tf_unique_string" "environment" {
-  input = [ azurerm_resource_group.id ]
-}
