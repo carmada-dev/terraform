@@ -27,28 +27,28 @@ output "EnvironmentType" {
 
 output "PrivateLinkDnsZoneRG" {
 
-  value = azurerm_app_configuration_key.Settings_PrivateLinkDnsZoneRG.value
+  value = azurerm_app_configuration_key.PrivateLinkDnsZoneRG.value
   description = "Get setting PrivateLinkDnsZoneRG"
 
 }
 
 output "ProjectNetworkId" {
 
-  value = azurerm_app_configuration_key.Settings_ProjectNetworkId.value
+  value = azurerm_app_configuration_key.ProjectNetworkId.value
   description = "Get setting ProjectNetworkId"
 
 }
 
 output "ProjectGatewayIP" {
 
-  value = azurerm_app_configuration_key.Settings_ProjectGatewayIP.value
+  value = azurerm_app_configuration_key.ProjectGatewayIP.value
   description = "Get setting ProjectGatewayIP"
 
 }
 
 output "IPAlloc_URL" {
 
-  value = azurerm_app_configuration_key.Settings_IPAlloc_URL.value
+  value = azurerm_app_configuration_key.IPAlloc_URL.value
   description = "Get setting IPAlloc_URL"
 
 }
