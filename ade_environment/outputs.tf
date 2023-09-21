@@ -21,7 +21,7 @@ output "EnvironmentSuffix" {
 
 output "EnvironmentType" {
   
-  value = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
+  value = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationLabel"]
   description = "Get the environment type"
 }
 

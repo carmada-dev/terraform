@@ -3,7 +3,7 @@ data "external" "Environment" {
 }
 
 data "azurerm_resource_group" "Environment" {
-  name = "${data.external.Environment.RESOURCE_GROUP_NAME}"
+  name = "${data.external.Environment.ENVIRONMENT_RESOURCE_GROUP_NAME}"
 }
 
 resource "arm2tf_unique_string" "Environment" {
