@@ -14,7 +14,7 @@ output "EnvironmentLocation" {
 
 output "EnvironmentSuffix" {
 
-  value = arm2tf_unique_string.environment.result
+  value = arm2tf_unique_string.Environment.result
   description = "Get the environment suffix"
 
 }
@@ -27,28 +27,28 @@ output "EnvironmentType" {
 
 output "PrivateLinkDnsZoneRG" {
 
-  value = data.external.Settings_PrivateLinkDnsZoneRG
+  value = azurerm_app_configuration_key.Settings_PrivateLinkDnsZoneRG.value
   description = "Get setting PrivateLinkDnsZoneRG"
 
 }
 
 output "ProjectNetworkId" {
 
-  value = data.external.Settings_ProjectNetworkId
+  value = azurerm_app_configuration_key.Settings_ProjectNetworkId.value
   description = "Get setting ProjectNetworkId"
 
 }
 
 output "ProjectGatewayIP" {
 
-  value = data.external.Settings_ProjectGatewayIP
+  value = azurerm_app_configuration_key.Settings_ProjectGatewayIP.value
   description = "Get setting ProjectGatewayIP"
 
 }
 
 output "IPAlloc_URL" {
 
-  value = data.external.Settings_IPAlloc_URL
+  value = azurerm_app_configuration_key.Settings_IPAlloc_URL.value
   description = "Get setting IPAlloc_URL"
 
 }
