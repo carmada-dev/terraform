@@ -1,4 +1,4 @@
-variable "resourceGroupName" {
+variable "resource_group_name" {
 	type 		= string
 	nullable 	= false
 }
