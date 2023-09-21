@@ -16,3 +16,7 @@ data "azurerm_app_configuration_key" "Settings_ProjectGatewayIP" {
   configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
   key                    = "ProjectGatewayIP"
 }
+
+resource "arm2tf_unique_string" "environment" {
+  input = [ azurerm_resource_group.id ]
+}
