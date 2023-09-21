@@ -7,7 +7,7 @@ data "azurerm_app_configuration_key" "Settings_IPAlloc_URL" {
 resource "null_resource" "IPAlloc" {
 
 	triggers = {
-		AllocationUrl = "${trimsuffix(trimspace(data.azurerm_app_configuration_key.Settings_IPAlloc_URL.value), "/")}/${uuid()}"
+		AllocationUrl = "${trimsuffix(trimspace(data.azurerm_app_configuration_key.Settings_IPAlloc_URL.value), "/")}/allocation/${uuid()}"
 		AllocationQuery = "env=${trimspace(var.configurationLabel)}&cidr=${join("&cidr=", var.cidrBlocks)}"
 	}
 
