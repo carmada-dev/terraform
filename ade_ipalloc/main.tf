@@ -37,7 +37,7 @@ data "external" "IPAlloction" {
 	program = [ "bash", "${path.module}/scripts/IPAlloction.sh"]
 	query = {
 	  URL = "${resource.null_resource.IPAlloc.triggers.AllocationUrl}"
-	  VERBOSE = "${resource.null_resource.IPAlloc.triggers.VerboseSwitch}"
+	  VERBOSE = "${try(resource.null_resource.IPAlloc.triggers.VerboseSwitch, "-sS")}"
 	}
 	depends_on = [ null_resource.IPAlloc ]
 }
