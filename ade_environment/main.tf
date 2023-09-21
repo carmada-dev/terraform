@@ -25,3 +25,8 @@ data "azurerm_app_configuration_key" "Settings_ProjectGatewayIP" {
   key                    = "ProjectGatewayIP"
 }
 
+data "azurerm_app_configuration_key" "Settings_IPAlloc_URL" {
+  configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
+  key                    = "IPAlloc-URL"
+}
+

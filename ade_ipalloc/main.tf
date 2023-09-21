@@ -1,14 +1,13 @@
 
-data "azurerm_app_configuration_key" "Settings_IPAlloc_URL" {
-  configuration_store_id = var.configurationStoreId
-  key                    = "IPAlloc-URL"
+module "ade_environment" {
+	source = "git::https://git@github.com/carmada-dev/terraform.git//ade_environment?ref=main"
 }
 
 resource "null_resource" "IPAlloc" {
 
 	triggers = {
-		AllocationUrl = "${trimsuffix(trimspace(data.azurerm_app_configuration_key.Settings_IPAlloc_URL.value), "/")}/allocation/${uuid()}"
-		AllocationQuery = "env=${trimspace(var.configurationLabel)}&cidr=${join("&cidr=", var.cidrBlocks)}"
+		AllocationUrl = "${trimsuffix(trimspace(module.ade_environment.IPALLOC_URL), "/")}/allocation/${uuid()}"
+		AllocationQuery = "env=${trimspace(module.ade_environment.EnvironmentType)}&cidr=${join("&cidr=", var.cidrBlocks)}"
 		VerboseSwitch = "${var.verbose ? "-v" : "-sS"}"
 	}
 
