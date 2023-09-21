@@ -16,7 +16,7 @@ resource "null_resource" "IPAlloc" {
     	command = <<-EOC
 
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
-curl ${self.VerboseSwitch} -X POST "${self.triggers.AllocationUrl}?${self.triggers.AllocationQuery}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
+curl ${self.triggers.VerboseSwitch} -X POST "${self.triggers.AllocationUrl}?${self.triggers.AllocationQuery}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
 
 EOC
   	}
@@ -26,7 +26,7 @@ EOC
 		command = <<-EOC
 
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
-curl ${self.VerboseSwitch} -X DELETE "${self.triggers.AllocationUrl}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
+curl ${self.triggers.VerboseSwitch} -X DELETE "${self.triggers.AllocationUrl}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
 
 EOC
 	}
@@ -37,6 +37,7 @@ data "external" "IPAlloction" {
 	program = [ "bash", "${path.module}/scripts/IPAlloction.sh"]
 	query = {
 	  URL = "${resource.null_resource.IPAlloc.triggers.AllocationUrl}"
+	  VERBOSE = "${resource.null_resource.IPAlloc.triggers.VerboseSwitch}"
 	}
 	depends_on = [ null_resource.IPAlloc ]
 }
