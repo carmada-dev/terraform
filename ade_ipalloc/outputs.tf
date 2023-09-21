@@ -1,4 +1,4 @@
-output "ip_ranges" {
+output "IPRanges" {
 
   value = split(",", data.external.IPAlloction.result.IPRANGES)
   description = "The allocated IP ranges by this module"
