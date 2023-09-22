@@ -6,8 +6,8 @@ module "ade_environment" {
 resource "null_resource" "IPAlloc" {
 
 	triggers = {
-		AllocationUrl 	= "${trimsuffix(trimspace(module.ade_environment.IPAllocService), "/")}/allocation/${uuid()}"
-		AllocationQuery = "env=${trimspace(module.ade_environment.EnvironmentType)}&cidr=${join("&cidr=", var.cidrBlocks)}"
+		AllocationUrl 	= "${trimsuffix(trimspace(module.ade_environment.Settings["IPAlloc-URL"]), "/")}/allocation/${uuid()}"
+		AllocationQuery = "env=${trimspace(module.ade_environment.Environment.Type)}&cidr=${join("&cidr=", var.cidrBlocks)}"
 		VerboseSwitch 	= "${var.verbose ? "-v" : "-sS"}"
 	}
 

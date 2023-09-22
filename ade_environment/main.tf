@@ -21,23 +21,6 @@ resource "azurerm_template_deployment" "Environment" {
 DEPLOY
 }
 
-data "azurerm_app_configuration_key" "PrivateLinkDnsZoneRG" {
-  	configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
-  	key                    = "PrivateLinkDnsZoneRG"
+data "azurerm_app_configuration_keys" "Environment" {
+  configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
 }
-
-data "azurerm_app_configuration_key" "ProjectNetworkId" {
-	configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
-	key                    = "ProjectNetworkId"
-}
-
-data "azurerm_app_configuration_key" "ProjectGatewayIP" {
-	configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
-	key                    = "ProjectGatewayIP"
-}
-
-data "azurerm_app_configuration_key" "IPAlloc_URL" {
-	configuration_store_id = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
-	key                    = "IPAlloc-URL"
-}
-
