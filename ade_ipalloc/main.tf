@@ -1,5 +1,5 @@
 module "ade_environment" {
-	source 				= "git::https://git@github.com/carmada-dev/terraform.git//ade_environment?ref=main"
+	source 				= "../ade_environment"
 	resourceGroup		= var.resourceGroup
 }
 
