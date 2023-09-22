@@ -14,7 +14,7 @@ output "EnvironmentLocation" {
 
 output "EnvironmentSuffix" {
 
-  value       = arm2tf_unique_string.Environment.result
+  value       = "${azurerm_template_deployment.Environment.outputs["uniqueString"]}"
   description = "Get the environment suffix"
 
 }
@@ -23,6 +23,21 @@ output "EnvironmentType" {
   
   value       = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationLabel"]
   description = "Get the environment type"
+
+}
+
+output "ConfigurationStore" {
+  
+  value       = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
+  description = "Get the environment type"
+
+}
+
+output "ConfigurationVault" {
+  
+  value       = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationVaultId"]
+  description = "Get the environment type"
+
 }
 
 output "PrivateLinkDnsZoneRG" {

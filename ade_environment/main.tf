@@ -2,8 +2,23 @@ data "azurerm_resource_group" "Environment" {
   	name = var.resourceGroup
 }
 
-resource "arm2tf_unique_string" "Environment" {
-  	input = [ "${data.azurerm_resource_group.Environment.id}" ]
+resource "azurerm_template_deployment" "Environment" {
+  name                = "uniqueString-${uuid()}"
+  resource_group_name = azurerm_resource_group.Environment.name
+  deployment_mode     = "Incremental"
+  template_body       = <<-DEPLOY
+        {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [],
+          "outputs": {
+              "uniqueString": {
+                  "type": "string",
+                  "value": "[uniqueString(resourceGroup().id)]"
+              }
+          }
+        }
+DEPLOY
 }
 
 data "azurerm_app_configuration_key" "PrivateLinkDnsZoneRG" {
