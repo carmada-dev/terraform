@@ -3,7 +3,7 @@ data "azurerm_resource_group" "Environment" {
 }
 
 resource "arm2tf_unique_string" "Environment" {
-  	input = [ data.azurerm_resource_group.Environment.id ]
+  	input = [ "${data.azurerm_resource_group.Environment.id}" ]
 }
 
 data "azurerm_app_configuration_key" "PrivateLinkDnsZoneRG" {
