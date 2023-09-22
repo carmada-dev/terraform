@@ -46,7 +46,7 @@ output "ProjectGatewayIP" {
 
 }
 
-output "IPAlloc_URL" {
+output "IPAllocService" {
 
   value       = data.azurerm_app_configuration_key.IPAlloc_URL.value
   description = "Get setting IPAlloc_URL"
