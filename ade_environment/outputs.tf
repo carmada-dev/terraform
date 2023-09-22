@@ -1,17 +1,17 @@
 output "Environment" {
-  value = objcet({
+  value = {
     Name = data.azurerm_resource_group.Environment.name
     Type = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationLabel"]
     Location = data.azurerm_resource_group.Environment.location
     Suffix = azurerm_template_deployment.Environment.outputs["uniqueString"]
-  })
+  }
 }
 
 output "Configuration" {
-  value = object({
+  value = {
     Store = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationStoreId"]
     Vault = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationVaultId"]
-  })
+  }
 }
 
 output "Settings" {
