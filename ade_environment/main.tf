@@ -1,9 +1,5 @@
-data "external" "Environment" {
-	program = [ "bash", "${path.module}/scripts/Environment.sh"]
-}
-
 data "azurerm_resource_group" "Environment" {
-  	name = "${try(data.external.Environment.ENVIRONMENT_RESOURCE_GROUP_NAME, var.resourceGroup)}"
+  	name = var.resourceGroup
 }
 
 resource "arm2tf_unique_string" "Environment" {
