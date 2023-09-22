@@ -52,3 +52,4 @@ output "IPAlloc_URL" {
   description = "Get setting IPAlloc_URL"
 
 }
+
