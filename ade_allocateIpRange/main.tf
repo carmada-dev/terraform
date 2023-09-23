@@ -1,13 +1,13 @@
-module "ade_environment" {
-	source 				= "git::https://git@github.com/carmada-dev/terraform.git//ade_environment?ref=main"
+module "ade_context" {
+	source 				= "git::https://git@github.com/carmada-dev/terraform.git//ade_context?ref=main"
 	resourceGroup		= var.resourceGroup
 }
 
 resource "null_resource" "IPAlloc" {
 
 	triggers = {
-		AllocationUrl 	= "${trimsuffix(trimspace(module.ade_environment.Settings["IPAlloc-URL"]), "/")}/allocation/${uuid()}"
-		AllocationQuery = "env=${trimspace(module.ade_environment.Environment.Type)}&cidr=${join("&cidr=", var.cidrBlocks)}"
+		AllocationUrl 	= "${trimsuffix(trimspace(module.ade_context.Settings["IPAlloc-URL"]), "/")}/allocation/${uuid()}"
+		AllocationQuery = "env=${trimspace(module.ade_context.Environment.Type)}&cidr=${join("&cidr=", var.cidrBlocks)}"
 		VerboseSwitch 	= "${var.verbose ? "-v" : "-sS"}"
 	}
 
