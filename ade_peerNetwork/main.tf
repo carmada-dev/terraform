@@ -1,22 +1,43 @@
-resource "arm2tf_guid" "HubNetworkGuid" {
-  input = [ 
-	"${var.hubNetworkId}"
-  ]
+module "ade_context" {
+	source 				= "git::https://git@github.com/carmada-dev/terraform.git//ade_context?ref=main"
+	resourceGroup		= var.resourceGroup
 }
 
-resource "arm2tf_guid" "SpokeNetworkGuid" {
-  input = [
-    "${var.spokeNetworkId}"
-  ]
+data "azurerm_virtual_network" "Environment" {
+	name 				= var.networkName
+	resource_group_name = var.resourceGroup
+}
+
+resource "azurerm_template_deployment" "Peering" {
+  name                	= "peering-${uuid()}"
+  resource_group_name 	= data.azurerm_resource_group.Environment.name
+  deployment_mode     	= "Incremental"
+  template_body       	= <<-DEPLOY
+        {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [],
+          "outputs": {
+              "peeringProject2Environment": {
+                  "type": "string",
+                  "value": "[concat('environment-', guid('${data.azurerm_virtual_network.Environment.id}'))]"
+              }
+              "peeringEnvironment2Project": {
+                  "type": "string",
+                  "value": "[concat('project-', guid('${module.ade_context.Settings["ProjectNetworkId"]}'))]"
+              }
+          }
+        }
+DEPLOY
 }
 
 resource "null_resource" "Peering" {
 
 	triggers = {
-		HubNetworkId = "${var.hubNetworkId}"
-		HubPeeringName = "${var.hubPeeringPrefix}-${arm2tf_guid.SpokeNetworkGuid.result}"
-	  	SpokeNetworkId = "${var.spokeNetworkId}"
-		SpokePeeringName = "${var.spokePeeringPrefix}-${arm2tf_guid.HubNetworkGuid.result}" 
+		HubNetworkId = module.ade_context.Settings["ProjectNetworkId"]
+		HubPeeringName = azurerm_template_deployment.Peering.outputs["peeringProject2Environment"]
+	  	SpokeNetworkId = data.azurerm_virtual_network.Environment.id
+		SpokePeeringName = azurerm_template_deployment.Peering.outputs["peeringEnvironment2Project"]
 	}
 
 	provisioner "local-exec" {
