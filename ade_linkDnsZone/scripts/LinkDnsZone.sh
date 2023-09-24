@@ -17,15 +17,14 @@ assertNotEmpty 'DNSZONENAME' $DNSZONENAME
 SUBSCRIPTION="$(echo $RESOURCEGROUPID | cut -d '/' -f3)"
 RESOURCEGROUP="$(echo $RESOURCEGROUPID | cut -d '/' -f5)"
 
-NETWORKIDS=( "$PROJECTNETWORKID" )
-[ -z "$ENVIRONMENTNETWORKID" ] || NETWORKIDS+=( "$PRIVATENETWORKID" )
-
 DNSZONEID=$(az network private-dns zone show --subscription $SUBSCRIPTION --resource-group $RESOURCEGROUP --name $(echo $DNSZONENAME | tr '[:upper:]' '[:lower:]') --query id -o tsv --only-show-errors 2> /dev/null)
 
 if [ -z "$DNSZONEID" ]; then
 	DNSZONEID=$(az network private-dns zone create --subscription $SUBSCRIPTION --resource-group $RESOURCEGROUP --name $(echo $DNSZONENAME | tr '[:upper:]' '[:lower:]') --query id -o tsv --only-show-errors 2> /dev/null)
 	assertNotEmpty 'DNSZONEID' $DNSZONEID
 fi
+
+NETWORKIDS=( "$PROJECTNETWORKID" "$ENVIRONMENTNETWORKID" )
 
 for NETWORKID in "${NETWORKIDS[@]}"
 do
