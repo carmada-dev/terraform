@@ -8,7 +8,7 @@ data "azurerm_virtual_network" "Environment" {
 	resource_group_name = var.resourceGroup
 }
 
-resource "azurerm_template_deployment" "Peering" {
+resource "azurerm_resource_group_template_deployment" "Peering" {
   name                	= "peering-${uuid()}"
   resource_group_name 	= data.azurerm_resource_group.Environment.name
   deployment_mode     	= "Incremental"
@@ -35,9 +35,9 @@ resource "null_resource" "Peering" {
 
 	triggers = {
 		HubNetworkId = module.ade_context.Settings["ProjectNetworkId"]
-		HubPeeringName = azurerm_template_deployment.Peering.outputs["peeringProject2Environment"]
+		HubPeeringName = azurerm_resource_group_template_deployment.Peering.outputs["peeringProject2Environment"]
 	  	SpokeNetworkId = data.azurerm_virtual_network.Environment.id
-		SpokePeeringName = azurerm_template_deployment.Peering.outputs["peeringEnvironment2Project"]
+		SpokePeeringName = azurerm_resource_group_template_deployment.Peering.outputs["peeringEnvironment2Project"]
 	}
 
 	provisioner "local-exec" {

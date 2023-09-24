@@ -5,7 +5,7 @@ module "ade_context" {
 
 data "azurerm_virtual_network" "Environment" {
 	name 				= var.networkName
-	resourceGroup		= var.resourceGroup
+	resource_group_name	= var.resourceGroup
 }
 
 data "external" "DNSZone" {

@@ -2,7 +2,7 @@ data "azurerm_resource_group" "Environment" {
   	name 				= var.resourceGroup
 }
 
-resource "azurerm_template_deployment" "Environment" {
+resource "azurerm_resource_group_template_deployment" "Environment" {
   name                	= "uniqueString-${uuid()}"
   resource_group_name 	= data.azurerm_resource_group.Environment.name
   deployment_mode     	= "Incremental"
