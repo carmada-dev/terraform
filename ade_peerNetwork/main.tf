@@ -10,7 +10,7 @@ data "azurerm_virtual_network" "Environment" {
 
 resource "azurerm_resource_group_template_deployment" "Peering" {
   name                	= "peering-${uuid()}"
-  resource_group_name 	= data.azurerm_resource_group.Environment.name
+  resource_group_name 	= var.resourceGroup
   deployment_mode     	= "Incremental"
   template_content      = <<-TEMPLATE
         {
