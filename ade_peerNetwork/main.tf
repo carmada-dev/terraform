@@ -21,7 +21,7 @@ resource "azurerm_resource_group_template_deployment" "Peering" {
               "peeringProject2Environment": {
                   "type": "string",
                   "value": "[concat('environment-', guid('${data.azurerm_virtual_network.Environment.id}'))]"
-              }
+              },
               "peeringEnvironment2Project": {
                   "type": "string",
                   "value": "[concat('project-', guid('${module.ade_context.Settings["ProjectNetworkId"]}'))]"
