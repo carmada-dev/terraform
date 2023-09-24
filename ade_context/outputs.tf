@@ -3,7 +3,7 @@ output "Environment" {
     Name = data.azurerm_resource_group.Environment.name
     Type = data.azurerm_resource_group.Environment.tags["hidden-ConfigurationLabel"]
     Location = data.azurerm_resource_group.Environment.location
-    Suffix = azurerm_resource_group_template_deployment.Environment.outputs["uniqueString"]
+    Suffix = jsondecode(azurerm_resource_group_template_deployment.Environment.output_content).uniqueString.value
   }
 }
 
