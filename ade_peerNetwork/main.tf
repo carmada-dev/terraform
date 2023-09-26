@@ -41,7 +41,11 @@ resource "null_resource" "Peering" {
 	}
 
 	provisioner "local-exec" {
-    	command = <<-EOC
+    	command = <<-COMMAND
+
+for ID in $(az network vnet peering list --subscription ${element(split("/", "${self.triggers.HubNetworkId}"),2)} --resource-group ${element(split("/", "${self.triggers.HubNetworkId}"),4)} --vnet-name ${element(split("/", "${self.triggers.HubNetworkId}"),8)} --query "[?peeringState == 'Disconnected' && peeringSyncLevel == 'FullyInSync'].id" --output tsv); do
+	az network vnet peering delete --ids $ID --only-show-errors --output none 2>&1 &
+done; wait
 
 az network vnet peering create \
 	--name ${self.triggers.HubPeeringName} \
@@ -65,12 +69,12 @@ az network vnet peering create \
 	--only-show-errors \
 	--output none
 
-EOC
+COMMAND
   	}
   
   	provisioner "local-exec" {
 		when    = destroy
-		command = <<-EOC
+		command = <<-COMMAND
 
 az network vnet peering delete \
 	--name ${self.triggers.HubPeeringName} \
@@ -88,7 +92,7 @@ az network vnet peering delete \
 	--only-show-errors \
 	--output none
 
-EOC
+COMMAND
 	}
 
 }
