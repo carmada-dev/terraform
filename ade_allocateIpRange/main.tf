@@ -12,22 +12,23 @@ resource "null_resource" "IPAlloc" {
 	}
 
 	provisioner "local-exec" {
-    	command 		= <<-EOC
+    	command 		= <<-COMMAND
 
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
 curl ${try(self.triggers.VerboseSwitch, "-sS")} -X POST "${self.triggers.AllocationUrl}?${self.triggers.AllocationQuery}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
 
-EOC
+COMMAND
   	}
   
   	provisioner "local-exec" {
-		when    		= destroy
-		command 		= <<-EOC
+		when    	= destroy
+		on_failure 	= continue
+		command 	= <<-COMMAND
 
 TOKEN=$(az account get-access-token --query accessToken --output tsv)
 curl ${try(self.triggers.VerboseSwitch, "-sS")} -X DELETE "${self.triggers.AllocationUrl}" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN"
 
-EOC
+COMMAND
 	}
 
 }

@@ -73,8 +73,9 @@ COMMAND
   	}
   
   	provisioner "local-exec" {
-		when    = destroy
-		command = <<-COMMAND
+		when    	= destroy
+		on_failure 	= continue
+		command 	= <<-COMMAND
 
 az network vnet peering delete \
 	--name ${self.triggers.HubPeeringName} \
